@@ -1,3 +1,4 @@
+#!/bin/bash
 #RPi4B with Ubuntu script
 sudo apt update
 sudo apt -y full-upgrade

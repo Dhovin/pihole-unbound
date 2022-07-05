@@ -9,46 +9,46 @@ sudo apt-get -y install checkinstall
 sudo apt-get -y install dnsutils
 
 # create the unbound system user and group. Add unbound user to unbound group.
-printf "\033[92m***adding unbound group***\033[0m"
+printf "\033[92m***adding unbound group***\033[0m\n"
 sudo groupadd -g 991 unbound
-printf "\033[92m***adding unbound system user***\033[0m" 
+printf "\033[92m***adding unbound system user***\033[0m\n" 
 sudo useradd -r -c "unbound" -u 991 -g unbound -s /bin/false unbound
 
 #download the latest version of unbound. create build directory and uncompress source
 file=unbound-latest
-printf "\033[92m***creating build directory***\033[0m"
+printf "\033[92m***creating build directory***\033[0m\n"
 sudo mkdir -p unbound 
 cd unbound
-printf "\033[92m***downloading latest version of unbound software***\033[0m"
+printf "\033[92m***downloading latest version of unbound software***\033[0m\n"
 wget https://nlnetlabs.nl/downloads/unbound/$file.tar.gz
-printf "\033[92m***extracting archive***\033[0m"
+printf "\033[92m***extracting archive***\033[0m\n"
 tar xzvf $file.tar.gz  
 cd unbound-1.16.0
 
 # compile source for build
-printf "\033[92m***building unbound source***\033[0m"
+printf "\033[92m***building unbound source***\033[0m\n"
 sudo auto-apt run ./configure --prefix=/usr --includedir=/usr/include --mandir=/usr/share/man --infodir=/usr/share/info --sysconfdir=/etc --localstatedir=/var --disable-rpath --with-pidfile=/run/unbound.pid --with-rootkey-file=/var/lib/unbound/root.key --enable-subnet --with-chroot-dir= --libdir=/usr/lib --with-libevent --enable-systemd
 
 # make compiled source into installable package
-printf "\033[92m***compiling unbound***\033[0m"
+printf "\033[92m***compiling unbound***\033[0m\n"
 sudo make 
 
 # create uninstaller package and install unbound
-printf "\033[92m***creating uninstaller file and installing unbound***\033[0m"
+printf "\033[92m***creating uninstaller file and installing unbound***\033[0m\n"
 sudo checkinstall --fstrans=0 --pkgname=unbound --pkgversion=1.16.0 --default
 
 # set directory ownership for /etc/unbound. create dnssec root key
-printf "\033[92m***setting /etc/unbound directory ownership***\033[0m"
+printf "\033[92m***setting /etc/unbound directory ownership***\033[0m\n"
 sudo chown unbound:unbound /etc/unbound
-printf "\033[92m***creating unbound root anchor key***\033[0m"
+printf "\033[92m***creating unbound root anchor key***\033[0m\n"
 sudo /usr/sbin/unbound-anchor -a /etc/unbound/root.key -v
 
 # enable remote control for unbound. Keys are created in the /etc/unbound directory.
-printf "\033[92m***enabling unbound remote control***\033[0m"
+printf "\033[92m***enabling unbound remote control***\033[0m\n"
 sudo /usr/sbin/unbound-control-setup
 
 # create systemd service
-printf "\033[92m***creating systemd service record***\033[0m"
+printf "\033[92m***creating systemd service record***\033[0m\n"
 cat > /lib/systemd/system/unbound.service << EOF
 Description=Validating, recursive, and caching DNS resolver
 Documentation=man:unbound(8)
@@ -67,11 +67,11 @@ RestartSec=360
 EOF
 
 # Backup default commented unbound.conf file for future reference.
-printf "\033[92m***moving /etc/unbound/unbound.conf to unbound.conf.bak for future reference***\033[0m"
+printf "\033[92m***moving /etc/unbound/unbound.conf to unbound.conf.bak for future reference***\033[0m\n"
 sudo mv /etc/unbound/unbound.conf /etc/unbound/unbound.conf.bak
 
 # create /etc/unbound/unbound.conf file
-printf "\033[92m***creating unbound.conf file***\033[0m"
+printf "\033[92m***creating unbound.conf file***\033[0m\n"
 cat > /etc/unbound/unbound.conf << EOF
 # Unbound configuration file for Debian.
 #
@@ -86,12 +86,12 @@ include: "/etc/unbound/unbound.conf.d/*.conf"
 EOF
 
 # create /etc/unbound/unbound.conf.d directory
-printf "\033[92m***creating /etc/unbound/unbound/conf/d directory and setting ownership***\033[0m"
+printf "\033[92m***creating /etc/unbound/unbound/conf/d directory and setting ownership***\033[0m\n"
 sudo mkdir /etc/unbound/unbound.conf.d
 sudo chown unbound:unbound /etc/unbound/unbound.conf.d
 
 # create unbound.conf.d/pi-hole.conf file.
-printf "\033[92m***creating /etc/unbound/unbound.conf.d/pi-hole.conf file***\033[0m"
+printf "\033[92m***creating /etc/unbound/unbound.conf.d/pi-hole.conf file***\033[0m\n"
 cat > /etc/unbound/unbound.conf.d/pi-hole.conf << EOF
 ## Validating, recursive caching DNS
 ## pihole.conf [unbound.conf]
@@ -235,7 +235,7 @@ server:
     private-domain: "local.theama.co"
 
     # Ignore chain of trust. Domain is treated as insecure.
-    # domain-insecure: "example.com"
+    # domain-insecure: "example.com\n"
     domain-insecure: "local.theama.co"
 
     # Enable DNS over TLS (DoT)
@@ -251,7 +251,7 @@ server:
     # organization.com domain, i.e. *.organization.com, can be dns resolved by 1.1.1.1
     # instead of the public dns servers.
     # forward-zone:
-    #    name: "organization.com"
+    #    name: "organization.com\n"
     #    forward-addr: x.x.x.x        # Internal or private DNS
     # Connect to Cloudflare
     forward-zone:
@@ -278,21 +278,21 @@ remote-control:
 
     # unbound control files
     server-key-file: "/etc/unbound/unbound_server.key"
-    server-cert-file: "/etc/unbound/unbound_server.pem"
+    server-cert-file: "/etc/unbound/unbound_server.pem\n"
     control-key-file: "/etc/unbound/unbound_control.key"
-    control-cert-file: "/etc/unbound/unbound_control.pem"
+    control-cert-file: "/etc/unbound/unbound_control.pem\n"
 #
 ## Validating, recursive caching DNS
 ## pihole.conf [unbound.conf]
 EOF
 
 # set ownership for /etc/unbound/unbound.conf file and set permissions
-printf "\033[92m***setting ownership and permissions for /etc/unbound/unbound.conf***\033[0m"
+printf "\033[92m***setting ownership and permissions for /etc/unbound/unbound.conf***\033[0m\n"
 sudo chown unbound:unbound /etc/unbound/unbound.conf
 sudo chmod -R 755 /etc/unbound/
 
 # create handy symlinks
-printf "\033[92m***creating handy symlink to /etc/unbound/unbound/conf.d/pi-hole.conf file from home directory***\033[0m"
+printf "\033[92m***creating handy symlink to /etc/unbound/unbound/conf.d/pi-hole.conf file from home directory***\033[0m\n"
 ln -s /etc/unbound/unbound.conf.d/pi-hole.conf ~/pi-hole.conf
 
 # Prompt user to keep or remove installation, build, and compile dependencies

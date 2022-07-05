@@ -7,7 +7,9 @@
 ## Install
  
  curl -L https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/script.sh | bash
+ 
  or
+ 
  wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/script.sh -O script.sh && chmod +x script.sh && ./script.sh
 
 ## 18.04 LTS Issues

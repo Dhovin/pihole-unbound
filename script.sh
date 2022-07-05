@@ -24,33 +24,49 @@ else
     VER=$(uname -r)
 fi
 
-
-echo "***  UPDATING REPOSITORIES  ***"
+printf "\033[92m***  UPDATING REPOSITORIES  ***\033[0m\n\r"
 sudo apt update
-echo "***  UPGRADING ALL MODULES  ***"
+printf "\033[92m***  UPGRADING ALL MODULES  ***\033[0m\n\r"
 sudo apt -y full-upgrade
-echo "***  REMOVING UNUSED MODULES  ***"
+printf "\033[92m***  REMOVING UNUSED MODULES  ***\033[0m\n\r"
 sudo apt -y autoremove
-echo "*** CLEANING OLD MODULES VERSIONS  ***"
+printf "\033[92m*** CLEANING OLD MODULES VERSIONS  ***\033[0m\n\r"
 sudo apt -y autoclean
-echo "*** INSTALLING UNBOUND  ***"
+printf "\033[92m*** INSTALLING UNBOUND  ***\033[0m\n\r"
 sudo apt install -y unbound
 sudo wget https://www.internic.net/domain/named.root -O /etc/unbound/root.hints
 sudo wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/pihole.conf -O /etc/unbound/unbound.conf.d/pihole.conf
-echo "***  RESTARTING UNBOUND SERVICE  ***"
+printf "\033[92m***  RESTARTING UNBOUND SERVICE  ***\033[0m"
 sudo service unbound restart
-echo "***  PREPPING PIHOLE INSTALL  ***"
+printf "\033[92m***  PREPPING PIHOLE INSTALL  ***\033[0m\n\r"
 main_int=$(ip route get 8.8.8.8 | awk -- '{printf $5}')
-echo "Enter static ip address in CIDR notation [1.1.1.1/24]"
+printf "\033[92mEnter static ip address in CIDR notation [1.1.1.1/24]\033[0m\n\r"
 read -p 'Static IP: ' assigned_ip
 read -p 'Gateway IP: ' gateway
-echo "Enter name server IP addresses seperated by comma"
+printf "\033[92mEnter name server IP addresses seperated by comma\033[0m\n\r"
 read -p 'Nameserver: ' nameservers
-sudo netplan set ethernets.$main_int.dhcp4=false
-sudo netplan set ethernets.$main_int.addresses=[$assigned_ip]
-sudo netplan set ethernets.$main_int.gateway4=$gateway
-sudo netplan set ethernets.$main_int.nameservers.addresses=[$nameservers]
-sudo netplan apply
+if [[ "$VER" == 18.04 ]]; then
+	linenum=$(grep -n "dhcp4: true" 00-installer-config.yaml | awk -- '{printf $1}' | sed 's/://')
+	sudo sed -i 's/dhcp4: true/dhcp4: false/' 00-installer-config.yaml
+	linenum=$(expr $((linenum + 1)))
+	sudo sed -i "$linenum i\      addresses:" 00-installer-config.yaml
+	linenum=$(expr $((linenum + 1)))
+	sudo sed -i "$linenum i\        - $assigned_ip" 00-installer-config.yaml
+	linenum=$(expr $((linenum + 1)))
+	sudo sed -i "$linenum i\      gateway4: $gateway4" 00-installer-config.yaml
+	linenum=$(expr $((linenum + 1)))
+	sudo sed -i "$linenum i\      nameservers:" 00-installer-config.yaml
+	linenum=$(expr $((linenum + 1)))
+	sudo sed -i "$linenum i\        addresses: [$nameservers]" 00-installer-config.yaml
+	sudo netplan try
+elif [[ "$VER" == 20.04 ]]; then
+	sudo netplan set ethernets.$main_int.dhcp4=false
+	sudo netplan set ethernets.$main_int.addresses=[$assigned_ip]
+	sudo netplan set ethernets.$main_int.gateway4=$gateway
+	sudo netplan set ethernets.$main_int.nameservers.addresses=[$nameservers]
+	sudo netplan apply
+fi
+
 sudo sed 's/#NTP=/NTP=0.us.pool.ntp.org/' /etc/systemd/timesyncd.conf
 sudo timedatectl set-ntp true
 sudo systemctl daemon-reload
@@ -58,31 +74,31 @@ sudo systemctl restart systemd-timesyncd.service
 sudo dpkg-reconfigure tzdata
 sudo mkdir /etc/pihole
 {
-	echo 'WEBPASSWORD='
-	echo 'PIHOLE_INTERFACE='$main_int
-	echo 'IPV4_ADDRESS='$assigned_ip
-	echo 'IPV6_ADDRESS='
-	echo 'QUERY_LOGGING=true'
-	echo 'INSTALL_WEB_SERVER=true'
-	echo 'INSTALL_WEB_INTERFACE=true'
-	echo 'DNSMASQ_LISTENING=local'
-	echo 'PIHOLE_DNS_1=127.0.0.1#5335'
-	echo 'DNS_FQDN_REQUIRED=true'
-	echo 'DNS_BOGUS_PRIV=true'
-	echo 'ADMIN_EMAIL='
-	echo 'WEBTHEME=default-auto'
-	echo 'DNSSEC=true'
-	echo 'TEMPERATUREUNIT=F'
-	echo 'WEBUIBOXEDLAYOUT=boxed'
-	echo 'API_EXCLUDE_DOMAINS='
-	echo 'API_EXCLUDE_CLIENTS='
-	echo 'API_QUERY_LOG_SHOW=all'
-	echo 'API_PRIVACY_MODE=false'
+	printf 'WEBPASSWORD='
+	printf 'PIHOLE_INTERFACE='$main_int
+	printf 'IPV4_ADDRESS='$assigned_ip
+	printf 'IPV6_ADDRESS='
+	printf 'QUERY_LOGGING=true'
+	printf 'INSTALL_WEB_SERVER=true'
+	printf 'INSTALL_WEB_INTERFACE=true'
+	printf 'DNSMASQ_LISTENING=local'
+	printf 'PIHOLE_DNS_1=127.0.0.1#5335'
+	printf 'DNS_FQDN_REQUIRED=true'
+	printf 'DNS_BOGUS_PRIV=true'
+	printf 'ADMIN_EMAIL='
+	printf 'WEBTHEME=default-auto'
+	printf 'DNSSEC=true'
+	printf 'TEMPERATUREUNIT=F'
+	printf 'WEBUIBOXEDLAYOUT=boxed'
+	printf 'API_EXCLUDE_DOMAINS='
+	printf 'API_EXCLUDE_CLIENTS='
+	printf 'API_QUERY_LOG_SHOW=all'
+	printf 'API_PRIVACY_MODE=false'
 	
 } >> ~/setupVars.conf
 sudo mv ~/setupVars.conf /etc/pihole/setupVars.conf
 sudo curl -sSL https://install.pi-hole.net​ | bash /dev/stdin --unattended
-echo "Enter password for PiHole web interface (leave blank for no password)"
+printf "\033[92mEnter password for PiHole web interface (leave blank for no password)\033[0m\n\r"
 sudo pihole -a -p
 cd /home
 sudo mkdir pihole

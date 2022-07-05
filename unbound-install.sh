@@ -9,14 +9,14 @@ printf "\033[92m***adding unbound system user***\033[0m\n"
 sudo useradd -r -c "unbound" -u 991 -g unbound -s /bin/false unbound
 
 #download the latest version of unbound. create build directory and uncompress source
-file=unbound-latest
+#file=unbound-latest
 printf "\033[92m***creating build directory***\033[0m\n"
 sudo mkdir -p unbound 
 cd unbound
 printf "\033[92m***downloading latest version of unbound software***\033[0m\n"
-wget https://nlnetlabs.nl/downloads/unbound/$file.tar.gz
+wget https://nlnetlabs.nl/downloads/unbound/unbound-latest.tar.gz
 printf "\033[92m***extracting archive***\033[0m\n"
-tar xzvf $file.tar.gz  
+tar xzvf unbound-latest.tar.gz  
 cd unbound-1.16.0
 
 # compile source for build

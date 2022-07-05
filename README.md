@@ -4,6 +4,7 @@
  * Ubuntu Server 20.04 LTS working
  * Ubuntu Server 22.04 LTS not supported
  
+## Install
  
  curl -sSL https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/script.sh | sudo bash
 

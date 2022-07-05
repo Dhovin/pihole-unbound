@@ -36,7 +36,7 @@ printf "\033[92m*** INSTALLING UNBOUND  ***\033[0m\n\r"
 sudo apt install -y unbound
 sudo wget https://www.internic.net/domain/named.root -O /etc/unbound/root.hints
 sudo wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/pihole.conf -O /etc/unbound/unbound.conf.d/pihole.conf
-printf "\033[92m***  RESTARTING UNBOUND SERVICE  ***\033[0m"
+printf "\033[92m***  RESTARTING UNBOUND SERVICE  ***\033[0m\n\r"
 sudo service unbound restart
 printf "\033[92m***  PREPPING PIHOLE INSTALL  ***\033[0m\n\r"
 main_int=$(ip route get 8.8.8.8 | awk -- '{printf $5}')
@@ -46,18 +46,18 @@ read -p 'Gateway IP: ' gateway
 printf "\033[92mEnter name server IP addresses seperated by comma\033[0m\n\r"
 read -p 'Nameserver: ' nameservers
 if [[ "$VER" == 18.04 ]]; then
-	linenum=$(grep -n "dhcp4: true" 00-installer-config.yaml | awk -- '{printf $1}' | sed 's/://')
-	sudo sed -i 's/dhcp4: true/dhcp4: false/' 00-installer-config.yaml
+	linenum=$(grep -n "dhcp4: true" /etc/netplan/00-installer-config.yaml | awk -- '{printf $1}' | sed 's/://')
+	sudo sed -i 's/dhcp4: true/dhcp4: false/' /etc/netplan/00-installer-config.yaml
 	linenum=$(expr $((linenum + 1)))
-	sudo sed -i "$linenum i\      addresses:" 00-installer-config.yaml
+	sudo sed -i "$linenum i\      addresses:" /etc/netplan/00-installer-config.yaml
 	linenum=$(expr $((linenum + 1)))
-	sudo sed -i "$linenum i\        - $assigned_ip" 00-installer-config.yaml
+	sudo sed -i "$linenum i\        - $assigned_ip" /etc/netplan/00-installer-config.yaml
 	linenum=$(expr $((linenum + 1)))
-	sudo sed -i "$linenum i\      gateway4: $gateway4" 00-installer-config.yaml
+	sudo sed -i "$linenum i\      gateway4: $gateway4" /etc/netplan/00-installer-config.yaml
 	linenum=$(expr $((linenum + 1)))
-	sudo sed -i "$linenum i\      nameservers:" 00-installer-config.yaml
+	sudo sed -i "$linenum i\      nameservers:" /etc/netplan/00-installer-config.yaml
 	linenum=$(expr $((linenum + 1)))
-	sudo sed -i "$linenum i\        addresses: [$nameservers]" 00-installer-config.yaml
+	sudo sed -i "$linenum i\        addresses: [$nameservers]" /etc/netplan/00-installer-config.yaml
 	sudo netplan try
 elif [[ "$VER" == 20.04 ]]; then
 	sudo netplan set ethernets.$main_int.dhcp4=false
@@ -97,7 +97,7 @@ sudo mkdir /etc/pihole
 	
 } >> ~/setupVars.conf
 sudo mv ~/setupVars.conf /etc/pihole/setupVars.conf
-sudo curl -sSL https://install.pi-hole.net​ | bash /dev/stdin --unattended
+curl -sSL https://install.pi-hole.net​ | sudo bash /dev/stdin --unattended
 printf "\033[92mEnter password for PiHole web interface (leave blank for no password)\033[0m\n\r"
 sudo pihole -a -p
 cd /home
@@ -111,3 +111,4 @@ cd /var/www
 sudo mkdir .gnupg
 sudo chown www-data:www-data .gnupg
 sudo chmod 700 .gnupg
+cd ~

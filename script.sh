@@ -74,28 +74,28 @@ sudo systemctl restart systemd-timesyncd.service
 sudo dpkg-reconfigure tzdata
 sudo mkdir /etc/pihole
 {
-	printf 'WEBPASSWORD='
-	printf 'PIHOLE_INTERFACE='$main_int
-	printf 'IPV4_ADDRESS='$assigned_ip
-	printf 'IPV6_ADDRESS='
-	printf 'QUERY_LOGGING=true'
-	printf 'INSTALL_WEB_SERVER=true'
-	printf 'INSTALL_WEB_INTERFACE=true'
-	printf 'DNSMASQ_LISTENING=local'
-	printf 'PIHOLE_DNS_1=127.0.0.1#5335'
-	printf 'DNS_FQDN_REQUIRED=true'
-	printf 'DNS_BOGUS_PRIV=true'
-	printf 'ADMIN_EMAIL='
-	printf 'WEBTHEME=default-auto'
-	printf 'DNSSEC=true'
-	printf 'TEMPERATUREUNIT=F'
-	printf 'WEBUIBOXEDLAYOUT=boxed'
-	printf 'API_EXCLUDE_DOMAINS='
-	printf 'API_EXCLUDE_CLIENTS='
-	printf 'API_QUERY_LOG_SHOW=all'
+	printf 'WEBPASSWORD=\n'
+	printf 'PIHOLE_INTERFACE='$main_int'\n'
+	printf 'IPV4_ADDRESS='$assigned_ip'\n'
+	printf 'IPV6_ADDRESS=\n'
+	printf 'QUERY_LOGGING=true\n'
+	printf 'INSTALL_WEB_SERVER=true\n'
+	printf 'INSTALL_WEB_INTERFACE=true\n'
+	printf 'DNSMASQ_LISTENING=local\n'
+	printf 'PIHOLE_DNS_1=127.0.0.1#5335\n'
+	printf 'DNS_FQDN_REQUIRED=true\n'
+	printf 'DNS_BOGUS_PRIV=true\n'
+	printf 'ADMIN_EMAIL=\n'
+	printf 'WEBTHEME=default-auto\n'
+	printf 'DNSSEC=true\n'
+	printf 'TEMPERATUREUNIT=F\n'
+	printf 'WEBUIBOXEDLAYOUT=boxed\n'
+	printf 'API_EXCLUDE_DOMAINS=\n'
+	printf 'API_EXCLUDE_CLIENTS=\n'
+	printf 'API_QUERY_LOG_SHOW=all\n'
 	printf 'API_PRIVACY_MODE=false'
 	
-} >> ~/setupVars.conf
+} > ~/setupVars.conf
 sudo mv ~/setupVars.conf /etc/pihole/setupVars.conf
 curl -sSL https://install.pi-hole.net​ | sudo bash /dev/stdin --unattended
 printf "\033[92mEnter password for PiHole web interface (leave blank for no password)\033[0m\n\r"

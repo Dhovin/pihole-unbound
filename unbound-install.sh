@@ -23,7 +23,7 @@ echo "***downloading latest version of unbound software***"
 wget https://nlnetlabs.nl/downloads/unbound/$file.tar.gz
 echo "***extracting archive***"
 tar xzvf $file.tar.gz  
-cd unbound-1.14.0
+cd unbound-1.16.0
 
 # compile source for build
 echo "***building unbound source***"
@@ -35,7 +35,7 @@ sudo make
 
 # create uninstaller package and install unbound
 echo "***creating uninstaller file and installing unbound***"
-sudo checkinstall --fstrans=0 --pkgname=unbound --pkgversion=1.14.0 --default
+sudo checkinstall --fstrans=0 --pkgname=unbound --pkgversion=1.16.0 --default
 
 # set directory ownership for /etc/unbound. create dnssec root key
 echo "***setting /etc/unbound directory ownership***"

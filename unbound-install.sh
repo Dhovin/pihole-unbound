@@ -1,12 +1,6 @@
 #!/bin/bash
 # install software install, build, and compile dependencies
-sudo apt-get -y install auto-apt
-sudo apt-get -y install libevent-dev
-sudo apt-get -y install libsystemd-dev
-sudo apt-get -y install build-essential
-sudo apt-get -y install automake
-sudo apt-get -y install checkinstall
-sudo apt-get -y install dnsutils
+sudo apt-get -y install auto-apt libevent-dev libsystemd-dev build-essential automake checkinstall dnsutils
 
 # create the unbound system user and group. Add unbound user to unbound group.
 printf "\033[92m***adding unbound group***\033[0m\n"

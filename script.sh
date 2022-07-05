@@ -1,5 +1,29 @@
 #!/bin/bash
 #RPi4B with Ubuntu script
+if [ -f /etc/os-release ]; then
+    # freedesktop.org and systemd
+    . /etc/os-release
+    OS=$NAME
+    VER=$VERSION_ID
+elif type lsb_release >/dev/null 2>&1; then
+    # linuxbase.org
+    OS=$(lsb_release -si)
+    VER=$(lsb_release -sr)
+elif [ -f /etc/lsb-release ]; then
+    # For some versions of Debian/Ubuntu without lsb_release command
+    . /etc/lsb-release
+    OS=$DISTRIB_ID
+    VER=$DISTRIB_RELEASE
+elif [ -f /etc/debian_version ]; then
+    # Older Debian/Ubuntu/etc.
+    OS=Debian
+    VER=$(cat /etc/debian_version)
+else
+    # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
+    OS=$(uname -s)
+    VER=$(uname -r)
+fi
+
 echo "***  UPDATING REPOSITORIES  ***"
 sudo apt update
 echo "***  UPGRADING ALL MODULES  ***"
@@ -59,7 +83,7 @@ mkdir /etc/pihole
 sudo mv ~/setupVars.conf /etc/pihole/setupVars.conf
 sudo curl -sSL https://install.pi-hole.net​ | bash /dev/stdin --unattended
 echo "Enter password for PiHole web interface (leave blank for no password)"
-pihole -a -p
+sudo pihole -a -p
 cd /home
 sudo mkdir pihole
 sudo chown pihole:pihole pihole

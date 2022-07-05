@@ -24,6 +24,7 @@ else
     VER=$(uname -r)
 fi
 
+
 echo "***  UPDATING REPOSITORIES  ***"
 sudo apt update
 echo "***  UPGRADING ALL MODULES  ***"

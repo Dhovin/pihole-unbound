@@ -10,7 +10,7 @@
  
  or
  
- wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/script.sh -O script.sh && chmod +x script.sh && ./script.sh
+ wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/script.sh -O script.sh && sudochmod +x script.sh && ./script.sh
 
 ## 18.04 LTS Issues
  * netplan set option not implimented yet

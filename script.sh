@@ -25,37 +25,36 @@ else
 fi
 
 echo "***  UPDATING REPOSITORIES  ***"
-sudo apt update
+apt update
 echo "***  UPGRADING ALL MODULES  ***"
-sudo apt -y full-upgrade
+apt -y full-upgrade
 echo "***  REMOVING UNUSED MODULES  ***"
-sudo apt -y autoremove
+apt -y autoremove
 echo "*** CLEANING OLD MODULES VERSIONS  ***"
-sudo apt -y autoclean
+apt -y autoclean
 echo "*** INSTALLING UNBOUND  ***"
-sudo apt install -y unbound
-sudo wget https://www.internic.net/domain/named.root -O /etc/unbound/root.hints
-sudo wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/pihole.conf -O /etc/unbound/unbound.conf.d/pihole.conf
+apt install -y unbound
+wget https://www.internic.net/domain/named.root -O /etc/unbound/root.hints
+wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/pihole.conf -O /etc/unbound/unbound.conf.d/pihole.conf
 echo "***  RESTARTING UNBOUND SERVICE  ***"
-sudo service unbound restart
+service unbound restart
 echo "***  PREPPING PIHOLE INSTALL  ***"
 main_int=$(ip route get 8.8.8.8 | awk -- '{printf $5}')
 echo "Enter static ip address in CIDR notation [1.1.1.1/24]"
 read -p 'Static IP: ' assigned_ip
-echo ""
 read -p 'Gateway IP: ' gateway
 echo "Enter name server IP addresses seperated by comma"
 read -p 'Nameserver: ' nameservers
-sudo netplan set ethernets.$main_int.dhcp4=false
-sudo netplan set ethernets.$main_int.addresses=[$assigned_ip]
-sudo netplan set ethernets.$main_int.gateway4=$gateway
-sudo netplan set ethernets.$main_int.nameservers.addresses=[$nameservers]
-sudo netplan apply
-sudo sed 's/#NTP=/NTP=0.us.pool.ntp.org/' /etc/systemd/timesyncd.conf
-sudo timedatectl set-ntp true
-sudo systemctl daemon-reload
-sudo systemctl restart systemd-timesyncd.service
-sudo dpkg-reconfigure tzdata
+netplan set ethernets.$main_int.dhcp4=false
+netplan set ethernets.$main_int.addresses=[$assigned_ip]
+netplan set ethernets.$main_int.gateway4=$gateway
+netplan set ethernets.$main_int.nameservers.addresses=[$nameservers]
+netplan apply
+sed 's/#NTP=/NTP=0.us.pool.ntp.org/' /etc/systemd/timesyncd.conf
+timedatectl set-ntp true
+systemctl daemon-reload
+systemctl restart systemd-timesyncd.service
+dpkg-reconfigure tzdata
 mkdir /etc/pihole
 {
 	echo 'WEBPASSWORD='
@@ -80,18 +79,18 @@ mkdir /etc/pihole
 	echo 'API_PRIVACY_MODE=false'
 	
 } >> ~/setupVars.conf
-sudo mv ~/setupVars.conf /etc/pihole/setupVars.conf
-sudo curl -sSL https://install.pi-hole.net​ | bash /dev/stdin --unattended
+mv ~/setupVars.conf /etc/pihole/setupVars.conf
+curl -sSL https://install.pi-hole.net​ | bash /dev/stdin --unattended
 echo "Enter password for PiHole web interface (leave blank for no password)"
-sudo pihole -a -p
+pihole -a -p
 cd /home
-sudo mkdir pihole
-sudo chown pihole:pihole pihole
+mkdir pihole
+chown pihole:pihole pihole
 cd pihole
-sudo mkdir .gnupg
-sudo chown pihole:pihole .gnupg
-sudo chmod 700 .gnupg
+mkdir .gnupg
+chown pihole:pihole .gnupg
+chmod 700 .gnupg
 cd /var/www
-sudo mkdir .gnupg
-sudo chown www-data:www-data .gnupg
-sudo chmod 700 .gnupg
+mkdir .gnupg
+chown www-data:www-data .gnupg
+chmod 700 .gnupg

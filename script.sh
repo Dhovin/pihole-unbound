@@ -18,6 +18,7 @@ echo "***  PREPPING PIHOLE INSTALL  ***"
 main_int=$(ip route get 8.8.8.8 | awk -- '{printf $5}')
 echo "Enter static ip address in CIDR notation [1.1.1.1/24]"
 read -p 'Static IP: ' assigned_ip
+echo ""
 read -p 'Gateway IP: ' gateway
 echo "Enter name server IP addresses seperated by comma"
 read -p 'Nameserver: ' nameservers

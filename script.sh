@@ -1,13 +1,20 @@
 #!/bin/bash
 #RPi4B with Ubuntu script
+echo "***  UPDATING REPOSITORIES  ***"
 sudo apt update
+echo "***  UPGRADING ALL MODULES  ***"
 sudo apt -y full-upgrade
+echo "***  REMOVING UNUSED MODULES  ***"
 sudo apt -y autoremove
+echo "*** CLEANING OLD MODULES VERSIONS  ***"
 sudo apt -y autoclean
+echo "*** INSTALLING UNBOUND  ***"
 sudo apt install -y unbound
 sudo wget https://www.internic.net/domain/named.root -O /etc/unbound/root.hints
 sudo wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/pihole.conf -O /etc/unbound/unbound.conf.d/pihole.conf
+echo "***  RESTARTING UNBOUND SERVICE  ***"
 sudo service unbound restart
+echo "***  PREPPING PIHOLE INSTALL  ***"
 main_int=$(ip route get 8.8.8.8 | awk -- '{printf $5}')
 echo "Enter static ip address in CIDR notation [1.1.1.1/24]"
 read -p 'Static IP: ' assigned_ip

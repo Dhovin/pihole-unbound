@@ -32,12 +32,15 @@ printf "\033[92m***  REMOVING UNUSED MODULES  ***\033[0m\n\r"
 sudo apt -y autoremove
 printf "\033[92m*** CLEANING OLD MODULES VERSIONS  ***\033[0m\n\r"
 sudo apt -y autoclean
-printf "\033[92m*** INSTALLING UNBOUND  ***\033[0m\n\r"
-sudo apt install -y unbound
+#printf "\033[92m*** INSTALLING UNBOUND  ***\033[0m\n\r"
+wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/unbound-install.sh
+sudo chmod +x unbound-install.sh
+sudo ./unbound-install.sh
+#sudo apt install -y unbound
 sudo wget https://www.internic.net/domain/named.root -O /etc/unbound/root.hints
-sudo wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/pihole.conf -O /etc/unbound/unbound.conf.d/pihole.conf
-printf "\033[92m***  RESTARTING UNBOUND SERVICE  ***\033[0m\n\r"
-sudo service unbound restart
+#sudo wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/pihole.conf -O /etc/unbound/unbound.conf.d/pihole.conf
+#printf "\033[92m***  RESTARTING UNBOUND SERVICE  ***\033[0m\n\r"
+#sudo service unbound restart
 printf "\033[92m***  PREPPING PIHOLE INSTALL  ***\033[0m\n\r"
 main_int=$(ip route get 8.8.8.8 | awk -- '{printf $5}')
 printf "\033[92mEnter static ip address in CIDR notation [1.1.1.1/24]\033[0m\n\r"

@@ -9,46 +9,46 @@ sudo apt-get -y install checkinstall
 sudo apt-get -y install dnsutils
 
 # create the unbound system user and group. Add unbound user to unbound group.
-echo "***adding unbound group***"
+printf "\033[92m***adding unbound group***\033[0m"
 sudo groupadd -g 991 unbound
-echo "***adding unbound system user***" 
+printf "\033[92m***adding unbound system user***\033[0m" 
 sudo useradd -r -c "unbound" -u 991 -g unbound -s /bin/false unbound
 
 #download the latest version of unbound. create build directory and uncompress source
 file=unbound-latest
-echo "***creating build directory***"
+printf "\033[92m***creating build directory***\033[0m"
 sudo mkdir -p unbound 
 cd unbound
-echo "***downloading latest version of unbound software***"
+printf "\033[92m***downloading latest version of unbound software***\033[0m"
 wget https://nlnetlabs.nl/downloads/unbound/$file.tar.gz
-echo "***extracting archive***"
+printf "\033[92m***extracting archive***\033[0m"
 tar xzvf $file.tar.gz  
 cd unbound-1.16.0
 
 # compile source for build
-echo "***building unbound source***"
+printf "\033[92m***building unbound source***\033[0m"
 sudo auto-apt run ./configure --prefix=/usr --includedir=/usr/include --mandir=/usr/share/man --infodir=/usr/share/info --sysconfdir=/etc --localstatedir=/var --disable-rpath --with-pidfile=/run/unbound.pid --with-rootkey-file=/var/lib/unbound/root.key --enable-subnet --with-chroot-dir= --libdir=/usr/lib --with-libevent --enable-systemd
 
 # make compiled source into installable package
-echo "***compiling unbound***"
+printf "\033[92m***compiling unbound***\033[0m"
 sudo make 
 
 # create uninstaller package and install unbound
-echo "***creating uninstaller file and installing unbound***"
+printf "\033[92m***creating uninstaller file and installing unbound***\033[0m"
 sudo checkinstall --fstrans=0 --pkgname=unbound --pkgversion=1.16.0 --default
 
 # set directory ownership for /etc/unbound. create dnssec root key
-echo "***setting /etc/unbound directory ownership***"
+printf "\033[92m***setting /etc/unbound directory ownership***\033[0m"
 sudo chown unbound:unbound /etc/unbound
-echo "***creating unbound root anchor key***"
+printf "\033[92m***creating unbound root anchor key***\033[0m"
 sudo /usr/sbin/unbound-anchor -a /etc/unbound/root.key -v
 
 # enable remote control for unbound. Keys are created in the /etc/unbound directory.
-echo "***enabling unbound remote control***"
+printf "\033[92m***enabling unbound remote control***\033[0m"
 sudo /usr/sbin/unbound-control-setup
 
 # create systemd service
-echo "***creating systemd service record***"
+printf "\033[92m***creating systemd service record***\033[0m"
 cat > /lib/systemd/system/unbound.service << EOF
 Description=Validating, recursive, and caching DNS resolver
 Documentation=man:unbound(8)
@@ -67,11 +67,11 @@ RestartSec=360
 EOF
 
 # Backup default commented unbound.conf file for future reference.
-echo "***moving /etc/unbound/unbound.conf to unbound.conf.bak for future reference***"
+printf "\033[92m***moving /etc/unbound/unbound.conf to unbound.conf.bak for future reference***\033[0m"
 sudo mv /etc/unbound/unbound.conf /etc/unbound/unbound.conf.bak
 
 # create /etc/unbound/unbound.conf file
-echo "***creating unbound.conf file***"
+printf "\033[92m***creating unbound.conf file***\033[0m"
 cat > /etc/unbound/unbound.conf << EOF
 # Unbound configuration file for Debian.
 #
@@ -86,12 +86,12 @@ include: "/etc/unbound/unbound.conf.d/*.conf"
 EOF
 
 # create /etc/unbound/unbound.conf.d directory
-echo "***creating /etc/unbound/unbound/conf/d directory and setting ownership***"
+printf "\033[92m***creating /etc/unbound/unbound/conf/d directory and setting ownership***\033[0m"
 sudo mkdir /etc/unbound/unbound.conf.d
 sudo chown unbound:unbound /etc/unbound/unbound.conf.d
 
 # create unbound.conf.d/pi-hole.conf file.
-echo "***creating /etc/unbound/unbound.conf.d/pi-hole.conf file***"
+printf "\033[92m***creating /etc/unbound/unbound.conf.d/pi-hole.conf file***\033[0m"
 cat > /etc/unbound/unbound.conf.d/pi-hole.conf << EOF
 ## Validating, recursive caching DNS
 ## pihole.conf [unbound.conf]
@@ -287,19 +287,19 @@ remote-control:
 EOF
 
 # set ownership for /etc/unbound/unbound.conf file and set permissions
-echo "***setting ownership and permissions for /etc/unbound/unbound.conf***"
+printf "\033[92m***setting ownership and permissions for /etc/unbound/unbound.conf***\033[0m"
 sudo chown unbound:unbound /etc/unbound/unbound.conf
 sudo chmod -R 755 /etc/unbound/
 
 # create handy symlinks
-echo "***creating handy symlink to /etc/unbound/unbound/conf.d/pi-hole.conf file from home directory***"
+printf "\033[92m***creating handy symlink to /etc/unbound/unbound/conf.d/pi-hole.conf file from home directory***\033[0m"
 ln -s /etc/unbound/unbound.conf.d/pi-hole.conf ~/pi-hole.conf
 
 # Prompt user to keep or remove installation, build, and compile dependencies
 while true; do
     read -r -p "Unbound installed and configured. Do you wish to remove install, build, and compile dependencies from the system? (Y/N): " answer
     case $answer in
-        [Yy]* ) echo "Removing...";
+        [Yy]* ) printf "Removing...";
                 sudo apt-get -y purge auto-apt;
                 sudo apt-get -y purge libevent-dev;
                 sudo apt-get -y purge libsystemd-dev;
@@ -307,9 +307,9 @@ while true; do
                 sudo apt-get -y purge automake;
                 sudo apt-get -y purge checkinstall;
                 sudo apt-get -y autoremove;
-                echo "Compile, build, and install dependencies removed from system. Unbound installed successfully."; break;;
-        [Nn]* ) echo "Unbound installed successfully."; exit;;
-        * ) echo "Please answer Y or N.";;
+                printf "Compile, build, and install dependencies removed from system. Unbound installed successfully."; break;;
+        [Nn]* ) printf "Unbound installed successfully."; exit;;
+        * ) printf "Please answer Y or N.";;
     esac
 done
 
@@ -317,11 +317,11 @@ done
 while true; do
     read -r -p "Do you wish to start Unbound? (Y/N): " answer
     case $answer in
-        [Yy]* ) echo "Starting Unbound...";
+        [Yy]* ) printf "Starting Unbound...";
                 sudo unbound-control start;
                 break;;
-        [Nn]* ) echo "Unbound not running. Use unbound-control to start Unbound."; exit;;
-        * ) echo "Please answer Y or N.";;
+        [Nn]* ) printf "Unbound not running. Use unbound-control to start Unbound."; exit;;
+        * ) printf "Please answer Y or N.";;
     esac
 done
 

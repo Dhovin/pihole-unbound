@@ -14,10 +14,13 @@
 
 ## 18.04 LTS Issues
  * netplan set option not implimented yet
- * unbound service restart failed
+ * unbound service restart failed due to TLS settings in config file - unbound stopped dev at 1.6.7 for 18.04 latest is 1.9.4
  * no prompt for input data
 
 ## 22.04 LTS Issues
  * pihole not supported in 22.04 LTS yet
  * full upgrade prompts for outdated service restart during intial and during pihole update
  * netplan gateway4 command deprecated, use default routes
+ 
+ systemctl status unbound.service
+ journalctl -xe

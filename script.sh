@@ -53,7 +53,7 @@ if [[ "$VER" == 18.04 ]]; then
 	linenum=$(expr $((linenum + 1)))
 	sudo sed -i "$linenum i\        - $assigned_ip" /etc/netplan/00-installer-config.yaml
 	linenum=$(expr $((linenum + 1)))
-	sudo sed -i "$linenum i\      gateway4: $gateway4" /etc/netplan/00-installer-config.yaml
+	sudo sed -i "$linenum i\      gateway4: $gateway" /etc/netplan/00-installer-config.yaml
 	linenum=$(expr $((linenum + 1)))
 	sudo sed -i "$linenum i\      nameservers:" /etc/netplan/00-installer-config.yaml
 	linenum=$(expr $((linenum + 1)))

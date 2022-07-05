@@ -75,8 +75,8 @@ sudo dpkg-reconfigure tzdata
 sudo mkdir /etc/pihole
 {
 	printf 'WEBPASSWORD=\n'
-	printf 'PIHOLE_INTERFACE='$main_int'\n'
-	printf 'IPV4_ADDRESS='$assigned_ip'\n'
+	printf "PIHOLE_INTERFACE=$main_int\n"
+	printf "IPV4_ADDRESS=$assigned_ip\n"
 	printf 'IPV6_ADDRESS=\n'
 	printf 'QUERY_LOGGING=true\n'
 	printf 'INSTALL_WEB_SERVER=true\n'
@@ -93,7 +93,7 @@ sudo mkdir /etc/pihole
 	printf 'API_EXCLUDE_DOMAINS=\n'
 	printf 'API_EXCLUDE_CLIENTS=\n'
 	printf 'API_QUERY_LOG_SHOW=all\n'
-	printf 'API_PRIVACY_MODE=false'
+	printf 'API_PRIVACY_MODE=false\n'
 	
 } > ~/setupVars.conf
 sudo mv ~/setupVars.conf /etc/pihole/setupVars.conf

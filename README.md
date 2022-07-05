@@ -16,7 +16,6 @@
  * netplan set option not implimented yet
  * unbound service restart failed
  * no prompt for input data
- * 
 
 ## 22.04 LTS Issues
  * pihole not supported in 22.04 LTS yet

@@ -55,7 +55,7 @@ sudo chmod -R 755 /etc/unbound/
 printf "\033[92m***creating systemd service record***\033[0m\n"
 sudo tee -a /lib/systemd/system/unbound.service << EOF
 [Unit]
-Description=Validating, recursive, and caching DNS resolver
+Description=Unbound DNS resolver
 Documentation=man:unbound(8)
 Requires=network.target
 After=network-online.target
@@ -104,7 +104,7 @@ SystemCallFilter=~@clock @cpu-emulation @debug @keyring @module mount @obsolete 
 RestrictNamespaces=yes
 LockPersonality=yes
 RestrictSUIDSGID=yes
-ReadWritePaths=/run/unbound /var/lib/unbound
+ReadWritePaths=/run/unbound /
 Restart=always
 RestartSec=120
 EOF

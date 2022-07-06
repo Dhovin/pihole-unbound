@@ -30,15 +30,14 @@ EOF
 sudo chown unbound:unbound /etc/unbound
 sudo mv /etc/unbound/unbound.conf /etc/unbound/unbound.conf.bak
 sudo mv ~/unbound.conf /etc/unbound/unbound.conf
+sudo wget https://www.internic.net/domain/named.root -O /etc/unbound/root.hints
 sudo chown unbound:unbound /etc/unbound/*
 sudo /usr/sbin/unbound-anchor -a /etc/unbound/root.key -v
 sudo /usr/sbin/unbound-control-setup
-
 sudo mkdir /etc/unbound/unbound.conf.d
 sudo chown unbound:unbound /etc/unbound/unbound.conf.d
 sudo wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/pihole.conf -O /etc/unbound/unbound.conf.d/pihole.conf
 sudo chown unbound:unbound /etc/unbound/unbound.conf.d/*
-
 sudo tee -a /lib/systemd/system/unbound.service << EOF
 [Unit]
 Description=Validating, recursive, and caching DNS resolver

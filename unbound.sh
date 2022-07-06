@@ -1,5 +1,6 @@
 sudo apt update
-sudo apt install -y build-essential libssl-dev libexpat1-dev checkinstall bison flex doxygen #libsystemd-dev
+sudo apt install -y build-essential libssl-dev libexpat1-dev checkinstall bison flex doxygen
+#libsystemd-dev
 printf "\033[92m***adding unbound group***\033[0m\n"
 sudo groupadd -g 88 unbound
 printf "\033[92m***adding unbound system user***\033[0m\n" 
@@ -15,7 +16,7 @@ dir=$(ls)
 cd $dir
 printf "\033[92m***building unbound source***\033[0m\n"
 #sudo ./configure --prefix=/usr --sysconfdir=/etc --disable-static --with-pidfile=/run/unbound.pid
-sudo ./configure --prefix=/usr --includedir=/usr/include --disable-static --mandir=/usr/share/man --infodir=/usr/share/info --sysconfdir=/etc --localstatedir=/var --disable-rpath --with-pidfile=/run/unbound.pid --with-rootkey-file=/var/lib/unbound/root.key --enable-subnet --with-chroot-dir= --libdir=/usr/lib 
+sudo ./configure --prefix=/usr --includedir=/usr/include --disable-static --mandir=/usr/share/man --infodir=/usr/share/info --sysconfdir=/etc --localstatedir=/var --disable-rpath --with-pidfile=/run/unbound.pid --with-rootkey-file=/var/lib/unbound/root.key --enable-subnet --with-chroot-dir= --libdir=/usr/lib
 #--with-libevent --enable-systemd
 printf "\033[92m***compiling unbound***\033[0m\n"
 sudo make

@@ -33,6 +33,7 @@ sudo apt -y autoremove
 printf "\033[92m*** CLEANING OLD MODULES VERSIONS  ***\033[0m\n\r"
 sudo apt -y autoclean
 printf "\033[92m*** INSTALLING UNBOUND  ***\033[0m\n\r"
+sudo sed -i '$ a net.core.rmem_max=1048576' /etc/sysctl.conf
 wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/unbound.sh
 sudo chmod +x unbound.sh
 ./unbound.sh
@@ -115,3 +116,4 @@ sudo mkdir .gnupg
 sudo chown www-data:www-data .gnupg
 sudo chmod 700 .gnupg
 cd ~
+sudo shutdown -r now

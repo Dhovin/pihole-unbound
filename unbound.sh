@@ -15,7 +15,8 @@ dir=$(ls)
 cd $dir
 printf "\033[92m***building unbound source***\033[0m\n"
 #sudo ./configure --prefix=/usr --sysconfdir=/etc --disable-static --with-pidfile=/run/unbound.pid
-sudo ./configure --prefix=/usr --includedir=/usr/include --disable-static --mandir=/usr/share/man --infodir=/usr/share/info --sysconfdir=/etc --localstatedir=/var --disable-rpath --with-pidfile=/run/unbound.pid --with-rootkey-file=/var/lib/unbound/root.key --enable-subnet --with-chroot-dir= --libdir=/usr/lib #--with-libevent --enable-systemd
+sudo ./configure --prefix=/usr --includedir=/usr/include --disable-static --mandir=/usr/share/man --infodir=/usr/share/info --sysconfdir=/etc --localstatedir=/var --disable-rpath --with-pidfile=/run/unbound.pid --with-rootkey-file=/var/lib/unbound/root.key --enable-subnet --with-chroot-dir= --libdir=/usr/lib 
+#--with-libevent --enable-systemd
 printf "\033[92m***compiling unbound***\033[0m\n"
 sudo make
 sudo make doc

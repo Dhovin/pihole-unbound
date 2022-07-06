@@ -108,3 +108,5 @@ ReadWritePaths=@UNBOUND_RUN_DIR@ @UNBOUND_CHROOT_DIR@
 Restart=always
 RestartSec=360
 EOF
+printf "\033[92m*** Starting Unbound service ***\033[0m\n"
+sudo service unbound start

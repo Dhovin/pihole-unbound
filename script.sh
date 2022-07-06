@@ -37,7 +37,7 @@ wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/unbound.sh
 sudo chmod +x unbound.sh
 ./unbound.sh
 #sudo apt install -y unbound
-sudo wget https://www.internic.net/domain/named.root -O /etc/unbound/root.hints
+#sudo wget https://www.internic.net/domain/named.root -O /etc/unbound/root.hints
 #sudo wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/pihole.conf -O /etc/unbound/unbound.conf.d/pihole.conf
 #printf "\033[92m***  RESTARTING UNBOUND SERVICE  ***\033[0m\n\r"
 #sudo service unbound restart

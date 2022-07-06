@@ -106,7 +106,7 @@ LockPersonality=yes
 RestrictSUIDSGID=yes
 ReadWritePaths=/run/unbound /
 Restart=always
-RestartSec=120
+RestartSec=30
 EOF
 printf "\033[92m*** Starting Unbound service ***\033[0m\n"
 sudo systemctl start unbound

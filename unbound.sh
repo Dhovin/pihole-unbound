@@ -104,9 +104,11 @@ SystemCallFilter=~@clock @cpu-emulation @debug @keyring @module mount @obsolete 
 RestrictNamespaces=yes
 LockPersonality=yes
 RestrictSUIDSGID=yes
-ReadWritePaths=@UNBOUND_RUN_DIR@ @UNBOUND_CHROOT_DIR@
+ReadWritePaths=/run/unbound /var/lib/unbound
 Restart=always
-RestartSec=360
+RestartSec=120
 EOF
 printf "\033[92m*** Starting Unbound service ***\033[0m\n"
-sudo service unbound start
+sudo systemctl start unbound
+sudo systemctl enable unbound
+#sudo service unbound start

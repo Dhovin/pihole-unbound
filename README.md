@@ -8,7 +8,7 @@
  
 ## Install
  
- wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/script.sh -O script.sh && sudo chmod +x script.sh && ./script.sh
+ wget https&#58;//raw\.githubusercontent\.com/Dhovin/pihole-unbound/main/script.sh -O script.sh && sudo chmod +x script.sh && ./script.sh
 
 ## 18.04 LTS Issues
  * netplan set option not implimented yet

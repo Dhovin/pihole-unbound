@@ -1,3 +1,4 @@
+#!/bin/bash
 sudo apt update
 sudo apt install -y build-essential libssl-dev libexpat1-dev checkinstall bison flex doxygen
 #libsystemd-dev

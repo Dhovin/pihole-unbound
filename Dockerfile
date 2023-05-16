@@ -8,11 +8,10 @@ LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DA
 
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY script.sh script.sh
-
 RUN apt-get update -yq && \
+	wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/script.sh -O script.sh && \
 	chmod +x script.sh  && \
-	.\script.sh
+	./script.sh
 	# Cleanup
     apt-get clean -y && \
     apt-get autoremove -y && \

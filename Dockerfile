@@ -13,7 +13,7 @@ RUN apt-get update -yq && \
 	chmod +x script.sh  && \
 	./script.sh
 	# Cleanup
-    apt-get clean -y && \
+RUN apt-get clean -y && \
     apt-get autoremove -y && \
     rm -rfv /tmp/* /var/lib/apt/lists/* /var/tmp/* 
 

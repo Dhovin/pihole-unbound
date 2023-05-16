@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -yq && \
 	apt-get install wget && \
-	wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/script.sh -O script.sh && \
+	wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/dockerscript.sh -O script.sh && \
 	chmod +x script.sh  && \
 	./script.sh
 	# Cleanup

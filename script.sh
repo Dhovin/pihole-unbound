@@ -89,7 +89,7 @@ sudo mkdir /etc/pihole
 	
 } > ~/setupVars.conf
 sudo mv ~/setupVars.conf /etc/pihole/setupVars.conf
-curl -sSL https://install.pi-hole.net​ | sudo bash /dev/stdin --unattended
+curl -sSL 'https://install.pi-hole.net' | sudo bash /dev/stdin --unattended
 printf "\033[92mEnter password for PiHole web interface (leave blank for no password)\033[0m\n\r"
 sudo pihole -a -p
 cd /home

@@ -93,10 +93,18 @@ curl -sSL 'https://install.pi-hole.net' | sudo bash /dev/stdin --unattended
 printf "\033[92mEnter password for PiHole web interface (leave blank for no password)\033[0m\n\r"
 sudo pihole -a -p
 cd /home
-sudo mkdir pihole
+if [ -d "/home/pihole/" ]; then
+	printf 'Pihole folder already exists'
+else
+	sudo mkdir pihole
+fi
 sudo chown pihole:pihole pihole
 cd pihole
-sudo mkdir .gnupg
+if [ -d "" ]; then
+	printf 'gnupg folder already exists'
+else
+	sudo mkdir .gnupg
+fi
 sudo chown pihole:pihole .gnupg
 sudo chmod 700 .gnupg
 cd /var/www
@@ -104,4 +112,6 @@ sudo mkdir .gnupg
 sudo chown www-data:www-data .gnupg
 sudo chmod 700 .gnupg
 cd ~
+printf "\033[92m***  System will reboot in 5 seconds  ***\033[0m\n\r"
+sleep 7
 sudo shutdown -r now

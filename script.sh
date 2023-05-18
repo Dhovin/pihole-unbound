@@ -26,6 +26,8 @@ fi
 
 printf "\033[92m***  UPDATING REPOSITORIES  ***\033[0m\n\r"
 sudo apt update
+printf "\033[92m***  INSTALLING DEPENDANCIES  ***\033[0m\n\r"
+sudo apt install curl -y
 printf "\033[92m***  UPGRADING ALL MODULES  ***\033[0m\n\r"
 sudo apt -y full-upgrade
 printf "\033[92m***  REMOVING UNUSED MODULES  ***\033[0m\n\r"
@@ -49,21 +51,7 @@ read -p 'Static IP: ' assigned_ip
 read -p 'Gateway IP: ' gateway
 printf "\033[92mEnter name server IP addresses seperated by comma\033[0m\n\r"
 read -p 'Nameserver: ' nameservers
-if [[ "$VER" == 18.04 ]]; then
-	linenum=$(grep -n "dhcp4: true" /etc/netplan/00-installer-config.yaml | awk -- '{printf $1}' | sed 's/://')
-	sudo sed -i 's/dhcp4: true/dhcp4: false/' /etc/netplan/00-installer-config.yaml
-	linenum=$(expr $((linenum + 1)))
-	sudo sed -i "$linenum i\      addresses:" /etc/netplan/00-installer-config.yaml
-	linenum=$(expr $((linenum + 1)))
-	sudo sed -i "$linenum i\        - $assigned_ip" /etc/netplan/00-installer-config.yaml
-	linenum=$(expr $((linenum + 1)))
-	sudo sed -i "$linenum i\      gateway4: $gateway" /etc/netplan/00-installer-config.yaml
-	linenum=$(expr $((linenum + 1)))
-	sudo sed -i "$linenum i\      nameservers:" /etc/netplan/00-installer-config.yaml
-	linenum=$(expr $((linenum + 1)))
-	sudo sed -i "$linenum i\        addresses: [$nameservers]" /etc/netplan/00-installer-config.yaml
-	sudo netplan try
-elif [[ "$VER" == 20.04 ]]; then
+if [[ "$VER" == 20.04 ]]; then
 	sudo netplan set ethernets.$main_int.dhcp4=false
 	sudo netplan set ethernets.$main_int.addresses=[$assigned_ip]
 	sudo netplan set ethernets.$main_int.gateway4=$gateway

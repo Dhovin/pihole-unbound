@@ -27,7 +27,7 @@ fi
 printf "\033[92m***  UPDATING REPOSITORIES  ***\033[0m\n\r"
 sudo apt update
 printf "\033[92m***  INSTALLING DEPENDANCIES  ***\033[0m\n\r"
-sudo apt install curl -y
+sudo apt install -y curl
 printf "\033[92m***  UPGRADING ALL MODULES  ***\033[0m\n\r"
 sudo apt -y full-upgrade
 printf "\033[92m***  REMOVING UNUSED MODULES  ***\033[0m\n\r"

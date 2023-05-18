@@ -110,6 +110,6 @@ Restart=always
 RestartSec=30
 EOF
 printf "\033[92m*** Starting Unbound service ***\033[0m\n"
-sudo systemctl start unbound
 sudo systemctl enable unbound
+sudo systemctl start unbound
 #sudo service unbound start

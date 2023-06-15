@@ -23,10 +23,10 @@ printf "\033[92m***compiling unbound***\033[0m\n"
 sudo make
 sudo make doc
 printf "\033[92m***creating uninstaller file and installing unbound***\033[0m\n"
-sudo checkinstall --fstrans=0 --pkgname=unbound --pkgversion=1.16.0 --default
+sudo checkinstall --fstrans=0 --pkgname=unbound --pkgversion=1.17.1 --default
 #sudo make install
-sudo install -v -m755 -d /usr/share/doc/unbound-1.16.0
-sudo install -v -m644 doc/html/* /usr/share/doc/unbound-1.16.0
+sudo install -v -m755 -d /usr/share/doc/unbound-1.17.1
+sudo install -v -m644 doc/html/* /usr/share/doc/unbound-1.17.1
 sudo tee -a ~/unbound.conf << EOF
 # Unbound configuration file for Debian.
 #

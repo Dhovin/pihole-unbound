@@ -1,9 +1,9 @@
 # pihole-unbound
 
 ## Supported and tested OS
-
- * Ubuntu Server 20.04 LTS working
- * Ubuntu Server 22.04 LTS not scripted
+ * Raspian Bookworm - Working
+ * Ubuntu Server 20.04 LTS - working
+ * Ubuntu Server 22.04 LTS - not scripted
  
 ## Install
  

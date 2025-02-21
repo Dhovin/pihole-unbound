@@ -7,7 +7,7 @@
  
 ## Install
  
- wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/new-script.sh -O script.sh && sudo chmod +x script.sh && ./script.sh
+ wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/script.sh -O script.sh && sudo chmod +x script.sh && ./script.sh
 
 ## 22.04 LTS Issues
  * full upgrade prompts for outdated service restart during intial and during pihole update

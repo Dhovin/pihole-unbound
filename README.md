@@ -1,17 +1,17 @@
 # pihole-unbound
+***All versions broken since Pihole v6 release***
 
 ## Supported and tested OS
- * Raspian Bookworm - Working
- * Ubuntu Server 20.04 LTS - working
- * Ubuntu Server 22.04 LTS - not scripted
+ * Raspian Bookworm - mostly working
+ * Ubuntu Server 24.04 LTS - not working
  
 ## Install
  
  wget https://raw.githubusercontent.com/Dhovin/pihole-unbound/main/script.sh -O script.sh && sudo chmod +x script.sh && ./script.sh
 
-## 22.04 LTS Issues
- * full upgrade prompts for outdated service restart during intial and during pihole update
- * netplan gateway4 command deprecated, use default routes
+## Issues
+ * pihole update can change port to 8080 thinking that lighttpd is still installed
+ * probably something else
  
 ### troubleshooting commands
  * systemctl status unbound.service
